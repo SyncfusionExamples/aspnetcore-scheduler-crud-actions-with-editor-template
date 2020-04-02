@@ -1,0 +1,131 @@
+﻿@using Syncfusion.EJ2
+@{
+    ViewData["Title"] = "Home Page";
+}
+@{
+    var dataManager = new DataManager() { Url = "/Home/LoadData", CrudUrl = "Home/UpdateData", Adaptor = "UrlAdaptor", CrossDomain = true };
+}
+
+
+
+<ejs-schedule id="schedule" width="100%" height="650px" currentView="TimelineMonth" popupOpen="onPopupOpen" editorTemplate="#EventEditorTemplate">
+    <e-schedule-group byGroupID="true" resources="@ViewBag.Resources"></e-schedule-group>
+    <e-schedule-views>
+        <e-schedule-view option="TimelineDay"></e-schedule-view>
+        <e-schedule-view option="TimelineWeek" ></e-schedule-view>
+        <e-schedule-view option="TimelineWorkWeek"></e-schedule-view>
+        <e-schedule-view option="TimelineMonth"></e-schedule-view>
+        <e-schedule-view option="Agenda" displayName="Agenda"></e-schedule-view>
+    </e-schedule-views>
+    <e-schedule-resources>
+        <e-schedule-resource dataSource="@ViewBag.Projects" field="ProjectId" title=" Choose Project" name="Projects" textField="text" idField="id" colorField="color"></e-schedule-resource>
+        <e-schedule-resource dataSource="@ViewBag.Categories" field="CategoryId" title="Category" name="Categories" textField="text" idField="id" groupIDField='groupId' colorField="color" allowMultiple="true"></e-schedule-resource>
+    </e-schedule-resources>
+    <e-schedule-eventsettings dataSource="dataManager">
+    </e-schedule-eventsettings>
+</ejs-schedule>
+
+
+
+<script id="EventEditorTemplate" type="text/template">
+    <table class="custom-event-editor" width="100%" cellpadding="5">
+        <tbody>
+            <tr>
+                <td class="e-textlabel">Summary</td>
+                <td colspan="4">
+                    <input id="Subject" class="e-field e-input" type="text" value="" name="Subject" style="width: 100%" />
+                </td>
+            </tr>
+            <tr>
+                <td class="e-textlabel">Status</td>
+                <td colspan="4">
+                    <input type="text" id="ProjectId" name="EmployeeId" class="e-field" style="width: 100%" />
+                </td>
+            </tr>
+            <tr>
+                <td class="e-textlabel">Status</td>
+                <td colspan="4">
+                    <input type="text" id="CategoryId" name="EmployeeId" class="e-field" style="width: 100%" />
+                </td>
+            </tr>
+            <tr>
+                <td class="e-textlabel">From</td>
+                <td colspan="4">
+                    <input id="StartTime" class="e-field" type="text" name="StartTime" />
+                </td>
+            </tr>
+            <tr>
+                <td class="e-textlabel">To</td>
+                <td colspan="4">
+                    <input id="EndTime" class="e-field" type="text" name="EndTime" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</script>
+<style>
+    .e-schedule-form table tr td{
+        padding: 5px;
+    }
+</style>
+
+<script type="text/javascript">
+
+    var projectData = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.Projects))');
+    var categoriesData = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.Categories))');
+
+   
+    function onPopupOpen(args) {
+        if (args.type === 'Editor') {
+            var projectElement = args.element.querySelector('#ProjectId');
+            if (!projectElement.classList.contains('e-dropdownlist')) {
+                var dropDownListObject = new ej.dropdowns.DropDownList({
+                    placeholder: 'Choose status', value: args.data.ProjectId,
+                    fields: { text: 'text', value: 'id' },
+                    dataSource: projectData,
+
+                });
+                dropDownListObject.appendTo(projectElement);
+                projectElement.setAttribute('name', 'ProjectId');
+            }
+
+            var categoryElement = args.element.querySelector('#CategoryId');
+            if (!categoryElement.classList.contains('e-multiselect')) {
+                var multiSelectObject = new ej.dropdowns.MultiSelect({
+                    placeholder: 'Choose status', value: args.data.CategoryId,
+                    fields: { text: 'text', value: 'id' },
+                    dataSource: categoriesData,
+                    query: new ej.data.Query().where('groupId', 'equal', args.data.ProjectId)
+                });
+                multiSelectObject.appendTo(categoryElement);
+                categoryElement.setAttribute('name', 'CategoryId');
+            }
+            if (args.target.classList.contains('e-appointment')) {
+                var catObj = args.element.querySelector('#CategoryId').ej2_instances[0];
+
+                catObj.value = [args.data.CategoryId];
+            }
+            var startElement = args.element.querySelector('#StartTime');
+            if (!startElement.classList.contains('e-datetimepicker')) {
+                new ej.calendars.DateTimePicker({ value: new Date(startElement.value) || new Date() }, startElement);
+            }
+            var endElement = args.element.querySelector('#EndTime');
+            if (!endElement.classList.contains('e-datetimepicker')) {
+                new ej.calendars.DateTimePicker({ value: new Date(endElement.value) || new Date() }, endElement);
+            }
+        }
+    }
+    function onDataBinding(args) {
+        // Before Load the data to the scheduler need to convert the string to array
+        let data = args.result;
+        let scheduleData = [];
+        data.forEach(element => {
+            let res = element.CategoryId.split(',');
+            element.CategoryId = res.map(function (x) {
+                return parseInt(x, 10);
+            });
+            scheduleData.push(element);
+        });
+        args.result = scheduleData;
+    }
+</script>
