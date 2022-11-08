@@ -1,14 +1,14 @@
-# Syncfusion Scheduler for CRUD actions with Editor Template in Asp.Net Core
+# ASP.NET CORE Scheduler for CRUD actions with Editor Template
 
-A quick start project that helps you on how to perform CRUD actions in Syncfusion Scheduler with Editor Template.
+This sample explains about how to perform CRUD actions in Syncfusion ASP.NET Core Scheduler with Editor Template.
 
-## How to run this application?
-To run this application, you need to first clone the `ej2-aspnetcore-scheduler-crud-action-with-editor-template` repository and then navigate to its appropriate path where it has been located in your system.
+## Prerequisites
 
-To do so, open the command prompt and run the below commands one after the other.
+* Visual Studio 2022
 
-```
-git clone https://github.com/SyncfusionSamples/ej2-aspnetcore-scheduler-crud-action-with-editor-template ej2-scheduler
-```
-Compile and run the project.
+## How to run the project
 
+* Checkout this project to a location in your disk.
+* Open the solution file using the Visual Studio 2022.
+* Restore the NuGet packages by rebuilding the solution.
+* Run the project.
