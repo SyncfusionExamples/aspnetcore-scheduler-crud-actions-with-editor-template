@@ -1,8 +1,6 @@
 # ASP.NET CORE Scheduler for CRUD actions with Editor Template
 
-## Repository Description
-
-This sample demonstrates a complete implementation of Syncfusion ASP.NET Core Scheduler component with full Create, Read, Update, and Delete (CRUD) operations integrated with an editor template. The project provides a practical example for developers to understand how to manage schedule events efficiently using Syncfusion's powerful EJ2 Scheduler component in an ASP.NET Core application.
+A sample project that demonstrates a complete implementation of the [ASP.NET Core Scheduler](https://www.syncfusion.com/aspnet-core-ui-controls/scheduler) with full Create, Read, Update, and Delete (CRUD) operations integrated with an editor template. This project includes code examples for configuring the Scheduler, managing event data using models, controllers, and views, and implementing full backend support to efficiently handle and persist scheduling data.
 
 ## Features
 
@@ -12,10 +10,6 @@ This sample demonstrates a complete implementation of Syncfusion ASP.NET Core Sc
 * **Responsive Design:** User-friendly interface with responsive layout
 * **Real-time Updates:** Dynamic event management and updates
 * **Syncfusion EJ2 Scheduler:** Industry-standard scheduling component
-
-## Overview
-
-This ASP.NET Core project showcases how to integrate the Syncfusion EJ2 Scheduler component with complete backend support for managing schedule events. It includes database models, controllers, and views that work together to provide a robust scheduling solution.
 
 ## Prerequisites
 
